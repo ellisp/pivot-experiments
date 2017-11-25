@@ -1,7 +1,13 @@
+# This script generates data for a long thin fact table we will be using for experiments
+# on pivoting them to wide tables (equivalent of tiryd)
+
 library(readr)
 library(tidyverse)
 
-n <-  10 ^ 6
+rm(list=ls())
+gc()
+
+n <-  10 ^ 5
 n_id <- n / 50 # on average, 50 observations per person (they have multiple years and variables)
 
 eg_data <- data.frame(

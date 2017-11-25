@@ -2,7 +2,9 @@
 this is the 'straightforward' method:
 
 Timings:
-"1m rows" 8 seconds
+"0m rows" 2 seconds
+"1m rows" 16 seconds in total, of which about half is the pivot operation and half is the primary key
+"14m rows" 450 seconds.  So as the data gets bigger, the length of the pivot operation goes up non-linearly
 
 
 */
@@ -42,7 +44,7 @@ SELECT
 	SUM(CASE WHEN fk_variable_code = 28 THEN value ELSE NULL END) AS var28,
 	SUM(CASE WHEN fk_variable_code = 29 THEN value ELSE NULL END) AS var29,
 	SUM(CASE WHEN fk_variable_code = 30 THEN value ELSE NULL END) AS var30
-FROM pivot_experiments.dbo.fact_1_million_rows
+FROM pivot_experiments.dbo.fact_14_million_rows
 GROUP BY id, year
 -- seven seconds from 1 million rows
 
@@ -50,8 +52,8 @@ GROUP BY id, year
 
 
 
---ALTER TABLE pivot_experiments.dbo.wide_sum_case ADD PRIMARY KEY (id, year)
--- about 3 seconds from 1 million rows.  Leave off so we can focus on timing of first part
+ALTER TABLE pivot_experiments.dbo.wide_sum_case ADD PRIMARY KEY (id, year)
+
 
 
 

@@ -2,7 +2,9 @@
 Updates one column at a time.  This is *much* slower than doing it in a single sum(case()) way
 but gets the same results
 
-230 seconds on the 1 million row dataset (ie about 20 times slower)
+"0m rows" 3 seconds
+"1m rows" 230 seconds on the 1 million row dataset (ie about 15 times slower than the sum_case method)
+"14m rows" 
 
 Because it is doing this by EXECUTE one query at a time, if it gets interrupted
 the columns it has done so far are persistant and you could start again from the
@@ -21,8 +23,10 @@ SELECT
 	id,
 	year,
 	value
-FROM pivot_experiments.dbo.fact_1_million_rows
+FROM pivot_experiments.dbo.fact_14_million_rows
 WHERE fk_variable_code = 0
+--  this took about 70 seconds with the 14 million row version, I don't think this is a big bottleneck
+
 
 -- The table structure is settled now, no more rows being added, so we can
 -- convert it from a heap (failure to do this would make all the joins in
@@ -39,7 +43,7 @@ BEGIN
 		'UPDATE dbo.wide_updates
 		SET dbo.wide_updates.var' + @j + ' = b.value
 		FROM dbo.wide_updates				AS a 
-		INNER JOIN dbo.fact_1_million_rows	AS b 
+		INNER JOIN dbo.fact_14_million_rows	AS b 
 			ON a.year = b.year and a.id = b.id 
 		WHERE fk_variable_code = ' + @j
 	EXECUTE(@query)
