@@ -7,7 +7,7 @@ Note that these are heaps at this stage.
 
 */
 
-DROP TABLE IF EXISTS pivot_experiments.dbo.wide_sum_case
+DROP TABLE IF EXISTS pivot_experiments.dbo.wide_case_when
 DROP TABLE IF EXISTS pivot_experiments.dbo.wide_updates
 
 CREATE TABLE pivot_experiments.dbo.wide_sum_case
@@ -50,7 +50,7 @@ CREATE TABLE pivot_experiments.dbo.wide_sum_case
 -- Copy the structure into a second table
 SELECT * 
 INTO pivot_experiments.dbo.wide_updates 
-FROM pivot_experiments.dbo.wide_sum_case 
+FROM pivot_experiments.dbo.wide_case_when
 WHERE 1 = 2
 
 

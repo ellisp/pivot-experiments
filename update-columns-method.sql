@@ -4,7 +4,8 @@ but gets the same results
 
 "0m rows" 3 seconds
 "1m rows" 230 seconds on the 1 million row dataset (ie about 15 times slower than the sum_case method)
-"14m rows" 
+"4m rows"
+"14m rows" stopped it at 20 minutes and it had done 8 columns, so perhaps real time is going to be about 70 minutes
 
 Because it is doing this by EXECUTE one query at a time, if it gets interrupted
 the columns it has done so far are persistant and you could start again from the
@@ -23,7 +24,7 @@ SELECT
 	id,
 	year,
 	value
-FROM pivot_experiments.dbo.fact_14_million_rows
+FROM pivot_experiments.dbo.fact_4_million_rows
 WHERE fk_variable_code = 0
 --  this took about 70 seconds with the 14 million row version, I don't think this is a big bottleneck
 
@@ -43,7 +44,7 @@ BEGIN
 		'UPDATE dbo.wide_updates
 		SET dbo.wide_updates.var' + @j + ' = b.value
 		FROM dbo.wide_updates				AS a 
-		INNER JOIN dbo.fact_14_million_rows	AS b 
+		INNER JOIN dbo.fact_4_million_rows	AS b 
 			ON a.year = b.year and a.id = b.id 
 		WHERE fk_variable_code = ' + @j
 	EXECUTE(@query)

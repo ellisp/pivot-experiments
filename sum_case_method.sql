@@ -44,9 +44,9 @@ SELECT
 	SUM(CASE WHEN fk_variable_code = 28 THEN value ELSE NULL END) AS var28,
 	SUM(CASE WHEN fk_variable_code = 29 THEN value ELSE NULL END) AS var29,
 	SUM(CASE WHEN fk_variable_code = 30 THEN value ELSE NULL END) AS var30
-FROM pivot_experiments.dbo.fact_14_million_rows
+FROM pivot_experiments.dbo.fact_4_million_rows
 GROUP BY id, year
--- seven seconds from 1 million rows
+
 
 
 

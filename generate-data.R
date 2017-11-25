@@ -7,7 +7,7 @@ library(tidyverse)
 rm(list=ls())
 gc()
 
-n <-  10 ^ 5
+n <-  3 * 10 ^ 6
 n_id <- n / 50 # on average, 50 observations per person (they have multiple years and variables)
 
 eg_data <- data.frame(
