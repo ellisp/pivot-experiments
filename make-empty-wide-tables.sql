@@ -10,7 +10,7 @@ Note that these are heaps at this stage.
 DROP TABLE IF EXISTS pivot_experiments.dbo.wide_case_when
 DROP TABLE IF EXISTS pivot_experiments.dbo.wide_updates
 
-CREATE TABLE pivot_experiments.dbo.wide_sum_case
+CREATE TABLE pivot_experiments.dbo.wide_case_when
 (
 	id		INT NOT NULL,
 	year	INT NOT NULL,

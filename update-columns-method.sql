@@ -2,10 +2,11 @@
 Updates one column at a time.  This is *much* slower than doing it in a single sum(case()) way
 but gets the same results
 
-"0m rows" 3 seconds
-"1m rows" 230 seconds on the 1 million row dataset (ie about 15 times slower than the sum_case method)
-"4m rows"
-"14m rows" stopped it at 20 minutes and it had done 8 columns, so perhaps real time is going to be about 70 minutes
+"0m rows" (0.4m) 2, 3 seconds - about 1.5 slower than the case-when method, but not very precise measure
+"1m rows" (1.4m) 230 seconds, 294 
+"2m rows" (2.1m) 440 seconds
+"4m rows"  (4.3m) 18 minutes - about 20 times slower than case when
+"14m rows" 75 minutes
 
 Because it is doing this by EXECUTE one query at a time, if it gets interrupted
 the columns it has done so far are persistant and you could start again from the
@@ -14,6 +15,8 @@ column that died.
 After the first chunk below has populated the first three columns (id, year and var0)
 the table already has the same size on disk as the entire table as created by the sum-case method.
 So populating the other columns is space neutral
+
+Writing to disk at about 30 million  B/sec to start with then it slows down as it gets on to the next columns
 
 */
 -- You need to have first created the empty table with make-empty-wide-tables.sql
@@ -24,7 +27,7 @@ SELECT
 	id,
 	year,
 	value
-FROM pivot_experiments.dbo.fact_4_million_rows
+FROM pivot_experiments.dbo.fact_14_million_rows
 WHERE fk_variable_code = 0
 --  this took about 70 seconds with the 14 million row version, I don't think this is a big bottleneck
 
@@ -44,7 +47,7 @@ BEGIN
 		'UPDATE dbo.wide_updates
 		SET dbo.wide_updates.var' + @j + ' = b.value
 		FROM dbo.wide_updates				AS a 
-		INNER JOIN dbo.fact_4_million_rows	AS b 
+		INNER JOIN dbo.fact_14_million_rows	AS b 
 			ON a.year = b.year and a.id = b.id 
 		WHERE fk_variable_code = ' + @j
 	EXECUTE(@query)

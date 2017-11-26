@@ -7,7 +7,7 @@ library(tidyverse)
 rm(list=ls())
 gc()
 
-n <-  3 * 10 ^ 6
+n <-  1 * 10 ^ 6
 n_id <- n / 50 # on average, 50 observations per person (they have multiple years and variables)
 
 eg_data <- data.frame(
@@ -44,7 +44,7 @@ object.size(full_data) / 10^6
 real_n <- nrow(full_data)
 system.time(write_csv(full_data, paste0("data/fact_", round(real_n / 1000000), "_million_rows.csv"))) 
 
-# 30 seconds to pivot 10 million rows
+# 30 seconds to pivot 10 million rows (which is much faster than any of the SQL server options)
 # crashes cannot allocate vector with 20 million rows; basically doesn't scale up
 # system.time({
 #   wide <- eg_data %>%
